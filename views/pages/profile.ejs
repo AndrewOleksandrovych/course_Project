@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Профіль користувача</title>
+  <link rel="stylesheet" href="/new-profile-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Профіль користувача</h1>
+    <div class="user-info">
+      <table>
+        <tr>
+          <th>Ім'я:</th>
+          <td><%= user.name %></td>
+        </tr>
+        <tr>
+          <th>Електронна пошта:</th>
+          <td><%= user.email %></td>
+        </tr>
+        <tr>
+          <th>Роль:</th>
+          <td><%= user.role %></td>
+        </tr>
+      </table>
+    </div>
+    <a href="/profile/edit" class="btn">Редагувати профіль</a>
+    <h2>Зарплати</h2>
+    <ul>
+      <% salaries.forEach(salary => { %>
+        <li>
+          Сума: $<%= salary.amount %> - Дата: <%= salary.date.toDateString() %>
+        </li>
+      <% }) %>
+    </ul>
+    <h2>Відпустки</h2>
+    <ul>
+      <% leaves.forEach(leave => { %>
+        <li>
+          З: <%= leave.startDate.toDateString() %> По: <%= leave.endDate.toDateString() %> - Причина: <%= leave.reason %>
+        </li>
+      <% }) %>
+    </ul>
+    <a href="/auth/logout" class="btn">Вийти</a>
+  </div>
+</body>
+</html>

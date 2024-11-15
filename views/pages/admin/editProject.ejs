@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редагувати проект</title>
+  <link rel="stylesheet" href="/edit-project-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Редагувати проект</h1>
+    <form action="/admin/projects/<%= project._id %>/edit" method="POST">
+      <div class="form-group">
+        <label for="name">Назва проекту:</label>
+        <input type="text" id="name" name="name" value="<%= project.name %>" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Опис:</label>
+        <textarea id="description" name="description"><%= project.description %></textarea>
+      </div>
+      <div class="form-group">
+        <label for="startDate">Дата початку:</label>
+        <input type="date" id="startDate" name="startDate" value="<%= project.startDate.toISOString().split('T')[0] %>">
+      </div>
+      <div class="form-group">
+        <label for="endDate">Дата завершення:</label>
+        <input type="date" id="endDate" name="endDate" value="<%= project.endDate.toISOString().split('T')[0] %>">
+      </div>
+      <div class="form-group">
+        <label for="users">Користувачі:</label>
+        <select id="users" name="users" multiple>
+          <% users.forEach(user => { %>
+            <option value="<%= user._id %>" <%= project.users.includes(user._id) ? 'selected' : '' %>><%= user.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="status">Статус:</label>
+        <select id="status" name="status" required>
+          <option value="в роботі" <%= project.status === 'в роботі' ? 'selected' : '' %>>в роботі</option>
+          <option value="завершений" <%= project.status === 'завершений' ? 'selected' : '' %>>завершений</option>
+        </select>
+      </div>
+      <button type="submit">Зберегти</button>
+    </form>
+    <a href="/admin/projects">Назад до проектів</a>
+  </div>
+</body>
+</html>

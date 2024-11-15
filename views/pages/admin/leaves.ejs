@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управління відпустками</title>
+  <link rel="stylesheet" href="/leave-management-styles.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Управління відпустками</h1>
+    <a href="/admin/leaves/new" class="btn add">Додати відпустку</a>
+
+    <!-- Форма для пошуку з автозаповненням -->
+    <form action="/admin/leaves/search" method="GET" class="search-form">
+      <input type="text" id="leaveSearch" name="query" placeholder="Пошук відпусток">
+      <button type="submit" class="btn">Пошук</button>
+    </form>
+
+    <!-- Форма для фільтрації -->
+    <form action="/admin/leaves/filter" method="GET" class="filter-form">
+      <input type="date" name="startDate" placeholder="Початкова дата">
+      <input type="date" name="endDate" placeholder="Кінцева дата">
+      <button type="submit" class="btn">Фільтрація</button>
+    </form>
+
+    <ul>
+      <% leaves.forEach(leave => { %>
+        <li>
+          <span><%= leave.user.name %> - Початок: <%= leave.startDate.toDateString() %> - Кінець: <%= leave.endDate.toDateString() %> - Причина: <%= leave.reason %></span>
+          <div class="button-group-right">
+            <a href="/admin/leaves/<%= leave._id %>/edit" class="btn">Редагувати</a>
+            <form action="/admin/leaves/<%= leave._id %>/delete" method="POST" style="display:inline;">
+              <button type="submit" class="btn delete">Видалити</button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <a href="/admin/dashboard">Назад до панелі адміністратора</a>
+  </div>
+
+  <script>
+    $(function() {
+      $("#leaveSearch").autocomplete({
+        source: function(request, response) {
+          $.ajax({
+            url: "/admin/users/autocomplete",
+            data: { term: request.term },
+            success: function(data) {
+              response(data.map(user => user.name));
+            }
+          });
+        },
+        minLength: 1
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Панель адміністратора</title>
+  <link rel="stylesheet" href="/admin-panel-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Панель адміністратора</h1>
+    <p>Ласкаво просимо, <%= user.name %>!</p>
+    <ul class="admin-actions">
+      <li><a href="/admin/users" class="btn">Управління користувачами</a></li>
+      <li><a href="/admin/salaries" class="btn">Управління зарплатами</a></li>
+      <li><a href="/admin/leaves" class="btn">Управління відпустками</a></li>
+      <li><a href="/admin/projects" class="btn">Управління проектами</a></li>
+    </ul>
+    <h2>Звіти</h2>
+    <ul class="report-actions">
+      <li><a href="/reports/salaries/excel" class="btn">Звіт про зарплати (Excel)</a></li>
+      <li><a href="/reports/leaves/excel" class="btn">Звіт про відпустки (Excel)</a></li>
+      <li><a href="/reports/projects/excel" class="btn">Звіт про проекти (Excel)</a></li>
+    </ul>
+    <a href="/" class="btn btn-back">На головну</a>
+  </div>
+</body>
+</html>

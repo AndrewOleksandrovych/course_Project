@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редагувати відпустку</title>
+  <link rel="stylesheet" href="/edit-leave-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Редагувати відпустку</h1>
+    <form action="/admin/leaves/<%= leave._id %>/edit" method="POST">
+      <div class="form-group">
+        <label for="user">Користувач:</label>
+        <select id="user" name="user" required>
+          <% users.forEach(user => { %>
+            <option value="<%= user._id %>" <%= leave.user._id.equals(user._id) ? 'selected' : '' %>><%= user.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="startDate">Дата початку:</label>
+        <input type="date" id="startDate" name="startDate" value="<%= leave.startDate.toISOString().substring(0, 10) %>" required>
+      </div>
+      <div class="form-group">
+        <label for="endDate">Дата закінчення:</label>
+        <input type="date" id="endDate" name="endDate" value="<%= leave.endDate.toISOString().substring(0, 10) %>" required>
+      </div>
+      <div class="form-group">
+        <label for="reason">Причина:</label>
+        <input type="text" id="reason" name="reason" value="<%= leave.reason %>" required>
+      </div>
+      <button type="submit">Оновити</button>
+    </form>
+    <a href="/admin/leaves">Назад до відпусток</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управління зарплатами</title>
+  <link rel="stylesheet" href="/salary-management-styles.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Управління зарплатами</h1>
+    <a href="/admin/salaries/new" class="btn add">Додати зарплату</a>
+
+    <!-- Форма для пошуку з автозаповненням -->
+    <form action="/admin/salaries/search" method="GET" class="search-form">
+      <input type="text" id="userSearch" name="query" placeholder="Пошук зарплат">
+      <button type="submit" class="btn">Пошук</button>
+    </form>
+
+    <!-- Форма для фільтрації -->
+    <form action="/admin/salaries/filter" method="GET" class="filter-form">
+      <input type="number" name="minAmount" placeholder="Мінімальна сума">
+      <input type="number" name="maxAmount" placeholder="Максимальна сума">
+      <input type="date" name="startDate" placeholder="Початкова дата">
+      <input type="date" name="endDate" placeholder="Кінцева дата">
+      <button type="submit" class="btn">Фільтрація</button>
+    </form>
+
+    <ul>
+      <% salaries.forEach(salary => { %>
+        <li>
+          <% if (salary.user) { %>
+            <span><%= salary.user.name %> - $<%= salary.amount %> - <%= salary.date.toDateString() %></span>
+          <% } else { %>
+            <span>Користувач невідомий - $<%= salary.amount %> - <%= salary.date.toDateString() %></span>
+          <% } %>
+          <div class="button-group-right">
+            <a href="/admin/salaries/<%= salary._id %>/edit" class="btn">Редагувати</a>
+            <form action="/admin/salaries/<%= salary._id %>/delete" method="POST" style="display:inline;">
+              <button type="submit" class="btn delete">Видалити</button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <a href="/admin/dashboard">Назад до панелі адміністратора</a>
+  </div>
+
+  <script>
+    $(function() {
+      $("#userSearch").autocomplete({
+        source: function(request, response) {
+          $.ajax({
+            url: "/admin/users/autocomplete",
+            data: { term: request.term },
+            success: function(data) {
+              response(data.map(user => user.name));
+            }
+          });
+        },
+        minLength: 1
+      });
+    });
+  </script>
+</body>
+</html>
+  

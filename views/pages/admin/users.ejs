@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управління користувачами</title>
+  <link rel="stylesheet" href="/user-management-styles.css">
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Управління користувачами</h1>
+    
+    <div class="actions">
+      <a href="/admin/users/new" class="btn add">Додати користувача</a>
+
+      <!-- Форма для пошуку з автозаповненням -->
+      <form action="/admin/users/search" method="GET" class="search-form">
+        <input type="text" id="userSearch" name="query" placeholder="Пошук користувачів">
+        <button type="submit" class="btn">Пошук</button>
+      </form>
+    </div>
+
+    <ul>
+      <% users.forEach(user => { %>
+        <li>
+          <span><%= user.name %> - <%= user.email %></span>
+          <div class="button-group-right">
+            <a href="/admin/users/<%= user._id %>/edit" class="btn">Редагувати</a>
+            <form action="/admin/users/<%= user._id %>/delete" method="POST" style="display:inline;">
+              <button type="submit" class="btn delete">Видалити</button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <a href="/admin/dashboard">Назад до панелі адміністратора</a>
+  </div>
+
+  <script>
+    $(function() {
+      $("#userSearch").autocomplete({
+        source: function(request, response) {
+          $.ajax({
+            url: "/admin/users/autocomplete",
+            data: { term: request.term },
+            success: function(data) {
+              response(data.map(user => user.name));
+            }
+          });
+        },
+        minLength: 1
+      });
+    });
+  </script>
+</body>
+</html>

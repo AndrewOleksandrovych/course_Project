@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Деталі проекту</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Деталі проекту</h1>
+    <p>Назва: <%= project.name %></p>
+    <p>Опис: <%= project.description %></p>
+    <p>Початкова дата: <%= project.startDate.toDateString() %></p>
+    <p>Кінцева дата: <%= project.endDate.toDateString() %></p>
+    <p>Статус: <%= project.status %></p>
+    <h2>Учасники</h2>
+    <ul>
+      <% project.users.forEach(user => { %>
+        <li><%= user.name %></li>
+      <% }) %>
+    </ul>
+    <a href="/admin/projects">Назад до проектів</a>
+  </div>
+</body>
+</html>

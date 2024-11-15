@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Управління проектами</title>
+  <link rel="stylesheet" href="/project-management-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Управління проектами</h1>
+    <form action="/admin/projects/search" method="GET">
+      <input type="text" name="query" placeholder="Пошук проектів">
+      <button type="submit" class="btn">Пошук</button>
+    </form>
+    <form action="/admin/projects/filter" method="GET">
+      <input type="date" name="startDate" placeholder="Початкова дата">
+      <input type="date" name="endDate" placeholder="Кінцева дата">
+      <select name="status">
+        <option value="">Всі статуси</option>
+        <option value="в роботі">в роботі</option>
+        <option value="завершений">завершений</option>
+      </select>
+      <button type="submit" class="btn">Фільтрація</button>
+    </form>
+    <a href="/admin/projects/new" class="btn add">Додати проект</a>
+    <ul>
+      <% projects.forEach(project => { %>
+        <li>
+          <span><%= project.name %> - <%= project.status %></span>
+          <div class="button-group-right">
+            <a href="/admin/projects/<%= project._id %>/details" class="btn details">Деталі</a>
+            <a href="/admin/projects/<%= project._id %>/edit" class="btn">Редагувати</a>
+            <form action="/admin/projects/<%= project._id %>/delete" method="POST" style="display:inline;">
+              <button type="submit" class="btn delete">Видалити</button>
+            </form>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+    <a href="/admin/dashboard">Назад до панелі адміністратора</a>
+  </div>
+</body>
+</html>

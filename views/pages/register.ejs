@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Реєстрація</title>
+  <link rel="stylesheet" href="/new-styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script>
+    function toggleAdminPasswordField() {
+      var roleSelect = document.getElementById('role');
+      var adminPasswordField = document.getElementById('adminPasswordField');
+      if (roleSelect.value === 'admin') {
+        adminPasswordField.style.display = 'block';
+      } else {
+        adminPasswordField.style.display = 'none';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Реєстрація</h2>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="error"><%= error %></div>
+    <% } %>
+    <form action="/auth/register" method="POST">
+      <div class="form-group">
+        <label for="name">Ім'я:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Електронна пошта:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="role">Роль:</label>
+        <select id="role" name="role" required onchange="toggleAdminPasswordField()" class="select-role">
+          <option value="user">Користувач</option>
+          <option value="admin">Адміністратор</option>
+        </select>
+      </div>
+      <div class="form-group" id="adminPasswordField" style="display: none;">
+        <label for="adminPassword">Пароль адміністратора:</label>
+        <input type="password" id="adminPassword" name="adminPassword">
+      </div>
+      <button type="submit" class="btn">Зареєструватися</button>
+    </form>
+    <p>Вже маєте обліковий запис? <a href="/auth/login">Увійти</a></p>
+  </div>
+</body>
+</html>

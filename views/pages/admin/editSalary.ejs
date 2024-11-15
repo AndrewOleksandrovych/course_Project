@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Редагувати зарплату</title>
+  <link rel="stylesheet" href="/edit-salary-styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Редагувати зарплату</h1>
+    <form action="/admin/salaries/<%= salary._id %>/edit" method="POST">
+      <div class="form-group">
+        <label for="user">Користувач:</label>
+        <select id="user" name="user" required>
+          <% users.forEach(user => { %>
+            <option value="<%= user._id %>" <%= salary.user._id.equals(user._id) ? 'selected' : '' %>><%= user.name %></option>
+          <% }) %>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="amount">Сума:</label>
+        <input type="number" id="amount" name="amount" value="<%= salary.amount %>" required>
+      </div>
+      <button type="submit">Оновити</button>
+    </form>
+    <a href="/admin/salaries">Назад до зарплат</a>
+  </div>
+</body>
+</html>
